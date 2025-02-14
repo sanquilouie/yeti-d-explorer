@@ -171,17 +171,36 @@ Shop.prototype = {
     },
     
     showNotEnoughCoins: function() {
+        // Create a semi-transparent background
+        var bg = this.game.add.graphics(0, 0);
+        bg.beginFill(0x000000, 0.8); // Black with 50% opacity
+        bg.drawRect(
+            this.game.world.centerX - 250, 
+            this.game.world.centerY - 40, 
+            500, 
+            70
+        );
+        bg.endFill();
+    
+        // Add the "Not enough coins!" text
         var msg = this.game.add.text(
             this.game.world.centerX, this.game.world.centerY,
             "Not enough coins!",
-            { font: "28px Arial", fill: "#ff0000", align: "center" }
+            { font: "50px Arial", fill: "#ff0000", align: "center" }
         );
         msg.anchor.setTo(0.5, 0.5);
     
+        // Group them together
+        var group = this.game.add.group();
+        group.add(bg);
+        group.add(msg);
+    
+        // Destroy after 1.5 seconds
         this.game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {
-            msg.destroy();
+            group.destroy();
         }, this);
     },
+    
     
     
 

@@ -32,6 +32,6 @@ Preload.prototype = {
 	},
 
 	create: function(){
-		this.game.state.start("Inventory");
+		this.game.state.start("MainMenu");
 	}
 }
