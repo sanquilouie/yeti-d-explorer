@@ -2,7 +2,7 @@ var Shop = function(game){};
 
 Shop.prototype = {
     create: function(){
-        this.game.stage.backgroundColor = '#222'; // Dark background
+        this.game.add.image(0, 0, "background");
     
         // Add shop window sprite
         this.shopWindow = this.game.add.sprite(
@@ -45,11 +45,11 @@ Shop.prototype = {
         // Example shop items (positioning them inside the shop window)
         this.item1 = this.createShopItem("Out of Town", 20000, this.game.world.centerX - 345, this.shopWindow.y + 88);
         this.item1 = this.createShopItem("Burger King", 5000, this.game.world.centerX - 118, this.shopWindow.y + 88);
-        this.item1 = this.createShopItem("Dinner Date", 7000, this.game.world.centerX + 118, this.shopWindow.y + 88);
+        this.item1 = this.createShopItem("Dinner Date", 5000, this.game.world.centerX + 118, this.shopWindow.y + 88);
         this.item1 = this.createShopItem("Chocolate", 2000, this.game.world.centerX + 345, this.shopWindow.y + 88);
 
-        this.item1 = this.createShopItem("Flowers", 3000, this.game.world.centerX - 345, this.shopWindow.y + 351);
-        this.item1 = this.createShopItem("Massage", 5000, this.game.world.centerX - 118, this.shopWindow.y + 351);
+        this.item1 = this.createShopItem("Grocery Shopping", 7000, this.game.world.centerX - 345, this.shopWindow.y + 351);
+        this.item1 = this.createShopItem("Massage", 3000, this.game.world.centerX - 118, this.shopWindow.y + 351);
         this.item1 = this.createShopItem("One with Nature", 15000, this.game.world.centerX + 118, this.shopWindow.y + 351);
         this.item1 = this.createShopItem("Anything you want", 45000, this.game.world.centerX + 345, this.shopWindow.y + 351);
 
@@ -117,7 +117,7 @@ Shop.prototype = {
 
         this.yesButton.inputEnabled = true;
         this.yesButton.events.onInputDown.add(function() {
-            this.purchaseItem(price);
+            this.purchaseItem(name, price);
         }, this);
     
         // No Button (Cancel)
@@ -136,12 +136,32 @@ Shop.prototype = {
         this.noButton.events.onInputDown.add(this.closeConfirmation, this);
     },
     
-    purchaseItem: function(price) {
+    purchaseItem: function(name, price) {
+        // Ensure coins is retrieved as a number
+        this.coins = parseInt(window.localStorage.getItem("Coins")) || 0;
+    
+        if (this.coins < price) {
+            console.log("Not enough coins!");
+            return;
+        }
+    
         this.coins -= price; // Deduct price
-        window.localStorage.setItem("Coins", this.coins); // Save new balance
-        this.coinText.setText(this.coins.toLocaleString()); // Update UI
-        this.closeConfirmation(); // Close the window
-    },
+    
+        // Save back to localStorage
+        window.localStorage.setItem("Coins", this.coins.toString()); 
+    
+        // Update coin display
+        this.coinText.setText(this.coins.toLocaleString());
+    
+        // Handle item purchase
+        var purchases = JSON.parse(window.localStorage.getItem("PurchasedItems")) || {};
+        purchases[name] = (purchases[name] || 0) + 1;
+        window.localStorage.setItem("PurchasedItems", JSON.stringify(purchases));
+    
+        console.log(name + " purchased! Remaining coins: " + this.coins);
+        this.closeConfirmation(); // Close confirmation window
+    }
+    ,
     
     closeConfirmation: function() {
         this.confirmWindow.destroy();

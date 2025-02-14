@@ -2,7 +2,7 @@ var GameOver = function (game) {};
 
 GameOver.prototype = {
     create: function () {
-        this.game.stage.backgroundColor = '479cde';
+        this.game.add.image(0, 0, "background");
 
         this.quit = this.game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         this.resume = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);

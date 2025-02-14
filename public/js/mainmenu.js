@@ -10,6 +10,27 @@ MainMenu.prototype = {
         this.logo.anchor.setTo(0.5, 0.5);
         this.logo.scale.setTo(0.7, 0.7); // Adjust size if needed
 
+        this.bag = this.game.add.sprite(this.game.world.width - 100, 100, "bagIcon");
+        this.bag.anchor.setTo(0.5, 0.5);
+        this.bag.scale.setTo(0.07, 0.07); // Adjust size if needed
+
+        // Enable input for the bag sprite
+        this.bag.inputEnabled = true;
+
+        // Add hover effect
+        this.bag.events.onInputOver.add(function() {
+            this.bag.scale.setTo(0.09, 0.09); // Increase size when hovered
+        }, this);
+
+        this.bag.events.onInputOut.add(function() {
+            this.bag.scale.setTo(0.07, 0.07); // Revert when not hovered
+        }, this);
+
+        this.bag.events.onInputDown.add(function() {
+            this.game.state.start("Inventory"); // Change to Inventory state
+        }, this);
+
+
         // Add play button below the logo
         this.playButton = this.game.add.button(
             this.game.world.centerX + 25, 

@@ -20,6 +20,8 @@ Preload.prototype = {
 		this.load.image('buyingWindow', 'assets/buyingWindow.png');
 		this.load.image('noIcon', 'assets/noButton.png');
 		this.load.image('yesIcon', 'assets/yesButton.png');
+		this.load.image('bagIcon', 'assets/inventory.png');
+		this.load.image('inventoryWindow', 'assets/inventoryWindow.png');
 		
 
 		
@@ -29,6 +31,6 @@ Preload.prototype = {
 	},
 
 	create: function(){
-		this.game.state.start("Shop");
+		this.game.state.start("Inventory");
 	}
 }
