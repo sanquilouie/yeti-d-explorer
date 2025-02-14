@@ -8,10 +8,10 @@ Inventory.prototype = {
         // Add inventory window sprite
         this.window = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, "inventoryWindow");
         this.window.anchor.setTo(0.5, 0.5);
-        this.window.scale.setTo(0.4, 0.4);
+        this.window.scale.setTo(0.3, 0.3);
 
         // Add close button
-        this.closeButton = this.game.add.sprite(this.window.x + 800, 100, "closeIcon");
+        this.closeButton = this.game.add.sprite(this.window.x + 500, 100, "closeIcon");
         this.closeButton.anchor.setTo(0.5, 0.5);
         this.closeButton.scale.setTo(0.3, 0.3);
         this.closeButton.inputEnabled = true;
@@ -33,7 +33,6 @@ Inventory.prototype = {
         // Define all possible inventory items with default value 0
         let allItems = {
             "Grocery Shopping": 0,  
-            
             "Burger King": 0,
             "Dinner Date": 0,
             "One with Nature": 0,
@@ -69,14 +68,14 @@ Inventory.prototype = {
     
         // Predefined positions for the 8 slots
         let itemPositions = [
-            { x: this.window.x - 285, y: this.window.y - 130 },
-            { x: this.window.x + 75, y: this.window.y - 130 },
-            { x: this.window.x + 435, y: this.window.y - 130 },
-            { x: this.window.x - 285, y: this.window.y + 90 },
-            { x: this.window.x + 75, y: this.window.y + 90 },
-            { x: this.window.x + 435, y: this.window.y + 90 },
-            { x: this.window.x - 160, y: this.window.y + 300 },
-            { x: this.window.x + 225, y: this.window.y + 300 }
+            { x: this.window.x - 215, y: this.window.y - 105 },
+            { x: this.window.x + 55, y: this.window.y - 105 },
+            { x: this.window.x + 325, y: this.window.y - 105 },
+            { x: this.window.x - 215, y: this.window.y + 60 },
+            { x: this.window.x + 55, y: this.window.y + 60 },
+            { x: this.window.x + 325, y: this.window.y + 60 },
+            { x: this.window.x - 120, y: this.window.y + 220 },
+            { x: this.window.x + 170, y: this.window.y + 220 }
         ];
     
         // Loop through all items and display them

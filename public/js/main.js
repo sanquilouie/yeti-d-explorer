@@ -40,7 +40,7 @@ Main.prototype = {
 		this.timer = game.time.events.loop(this.rate, this.addObstacles, this);
 		this.Scoretimer = game.time.events.loop(100, this.incrementScore, this);
 
-		//this.jumpSfx = this.game.add.audio("jumpSound");
+		this.jumpSfx = this.game.add.audio("jumpSound");
 
 	},
 
@@ -62,7 +62,7 @@ Main.prototype = {
 		if (this.jumps > 0 && this.upInputIsActive(5)) {
 			this.player.body.velocity.y = -1000;
 			this.jumping = true;
-			//this.jumpSfx.play();
+			this.jumpSfx.play();
 			this.player.animations.play('jump', 10, true);
 		}
 

@@ -3,7 +3,7 @@ var Preload = function(game){};
 Preload.prototype = {
 
 	preload: function(){ 
-		//this.game.load.audio("jumpSound", "assets/jump.mp3");
+		this.game.load.audio("jumpSound", "assets/jump.mp3");
 
 		this.game.load.image("gameLogo", "assets/yetilogo.png"); 
     	this.game.load.image("playIcon", "assets/playbtn.png");

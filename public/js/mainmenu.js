@@ -6,9 +6,9 @@ MainMenu.prototype = {
         this.game.add.image(0, 0, "background");
 
         // Add logo in the center
-        this.logo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY - 100, "gameLogo");
+        this.logo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY - 50, "gameLogo");
         this.logo.anchor.setTo(0.5, 0.5);
-        this.logo.scale.setTo(0.7, 0.7); // Adjust size if needed
+        this.logo.scale.setTo(0.5, 0.5); // Adjust size if needed
 
         this.bag = this.game.add.sprite(this.game.world.width - 100, 100, "bagIcon");
         this.bag.anchor.setTo(0.5, 0.5);
@@ -33,8 +33,8 @@ MainMenu.prototype = {
 
         // Add play button below the logo
         this.playButton = this.game.add.button(
-            this.game.world.centerX + 25, 
-            this.game.world.centerY + 300, 
+            this.game.world.centerX + 15, 
+            this.game.world.centerY + 225, 
             "playIcon", 
             this.startGame, 
             this

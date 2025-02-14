@@ -11,15 +11,15 @@ Shop.prototype = {
             "shopWindow"
         );
         this.shopWindow.anchor.setTo(0.5, 0.5); // Center the image
-        this.shopWindow.scale.setTo(0.25, 0.25);   
+        this.shopWindow.scale.setTo(0.2, 0.2);   
     
         this.coinBar = this.game.add.sprite(
-            this.shopWindow.x + this.shopWindow.width / 2 - 150, // Adjust for proper alignment
-            this.shopWindow.y - this.shopWindow.height / 2 + 210, // Place it at the top
+            this.shopWindow.x + this.shopWindow.width / 2 - 10, // Adjust for proper alignment
+            this.shopWindow.y - this.shopWindow.height / 2 + 150, // Place it at the top
             "coinsIcon"
         );
         this.coinBar.anchor.setTo(1, 0); // Align to top-right
-        this.coinBar.scale.setTo(0.2, 0.2); // Adjust the size if needed
+        this.coinBar.scale.setTo(0.15, 0.15); // Adjust the size if needed
         
 
         // Back Button (to return to GameOver screen)
@@ -43,15 +43,15 @@ Shop.prototype = {
         this.backButton.events.onInputDown.add(this.goBack, this);
     
         // Example shop items (positioning them inside the shop window)
-        this.item1 = this.createShopItem("Out of Town", 20000, this.game.world.centerX - 345, this.shopWindow.y + 88);
-        this.item1 = this.createShopItem("Burger King", 5000, this.game.world.centerX - 118, this.shopWindow.y + 88);
-        this.item1 = this.createShopItem("Dinner Date", 5000, this.game.world.centerX + 118, this.shopWindow.y + 88);
-        this.item1 = this.createShopItem("Chocolate", 2000, this.game.world.centerX + 345, this.shopWindow.y + 88);
+        this.item1 = this.createShopItem("Out of Town", 20000, this.game.world.centerX - 275, this.shopWindow.y + 70);
+        this.item1 = this.createShopItem("Burger King", 5000, this.game.world.centerX - 95, this.shopWindow.y + 70);
+        this.item1 = this.createShopItem("Dinner Date", 5000, this.game.world.centerX + 95, this.shopWindow.y + 70);
+        this.item1 = this.createShopItem("Chocolate", 2000, this.game.world.centerX + 275, this.shopWindow.y + 70);
 
-        this.item1 = this.createShopItem("Grocery Shopping", 7000, this.game.world.centerX - 345, this.shopWindow.y + 351);
-        this.item1 = this.createShopItem("Massage", 3000, this.game.world.centerX - 118, this.shopWindow.y + 351);
-        this.item1 = this.createShopItem("One with Nature", 15000, this.game.world.centerX + 118, this.shopWindow.y + 351);
-        this.item1 = this.createShopItem("Anything you want", 45000, this.game.world.centerX + 345, this.shopWindow.y + 351);
+        this.item1 = this.createShopItem("Grocery Shopping", 7000, this.game.world.centerX - 280, this.shopWindow.y + 280);
+        this.item1 = this.createShopItem("Massage", 3000, this.game.world.centerX - 95, this.shopWindow.y + 280);
+        this.item1 = this.createShopItem("One with Nature", 15000, this.game.world.centerX + 95, this.shopWindow.y + 280);
+        this.item1 = this.createShopItem("Anything you want", 45000, this.game.world.centerX + 280, this.shopWindow.y + 280);
 
         this.coins = parseInt(window.localStorage.getItem('Coins')) || 0;
         this.coinText = this.game.add.text(
@@ -68,7 +68,7 @@ Shop.prototype = {
         var item = this.game.add.text(
             x, y, 
             price.toLocaleString(), 
-            { font: "28px Arial", fill: "#000" }
+            { font: "23px Arial", fill: "#000" }
         );
         item.anchor.setTo(0.5, 0.5);
         item.inputEnabled = true;

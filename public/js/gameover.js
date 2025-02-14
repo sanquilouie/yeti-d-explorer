@@ -51,11 +51,11 @@ GameOver.prototype = {
 		this.coins = parseInt(window.localStorage.getItem('Coins')) || 0;
 	
 		// 🔹 Add new coins earned 🔹
-		this.coins += score;
-		score = 0;
+		//this.coins += score;
+		//score = 0;
 	
 		// 🔹 Save new total 🔹
-		window.localStorage.setItem('Coins', this.coins);
+		//window.localStorage.setItem('Coins', this.coins);
 	
 		// 🔹 Update coin display 🔹
 		this.coinLabel.setText("Total Coins: " + this.coins);
