@@ -11,14 +11,14 @@ Inventory.prototype = {
         this.window.scale.setTo(0.4, 0.4);
 
         // Add close button
-        this.closeButton = this.game.add.sprite(this.window.x + 150, this.window.y - 120, "closeIcon");
+        this.closeButton = this.game.add.sprite(this.window.x + 800, 100, "closeIcon");
         this.closeButton.anchor.setTo(0.5, 0.5);
-        this.closeButton.scale.setTo(0.07, 0.07);
+        this.closeButton.scale.setTo(0.3, 0.3);
         this.closeButton.inputEnabled = true;
 
         // Hover effect for close button
-        this.closeButton.events.onInputOver.add(() => this.closeButton.scale.setTo(0.09, 0.09));
-        this.closeButton.events.onInputOut.add(() => this.closeButton.scale.setTo(0.07, 0.07));
+        this.closeButton.events.onInputOver.add(() => this.closeButton.scale.setTo(0.4, 0.4));
+        this.closeButton.events.onInputOut.add(() => this.closeButton.scale.setTo(0.3, 0.3));
         
         // Close inventory
         this.closeButton.events.onInputDown.add(() => {

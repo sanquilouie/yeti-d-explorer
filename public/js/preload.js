@@ -22,6 +22,7 @@ Preload.prototype = {
 		this.load.image('yesIcon', 'assets/yesButton.png');
 		this.load.image('bagIcon', 'assets/inventory.png');
 		this.load.image('inventoryWindow', 'assets/inventoryWindow.png');
+		this.load.image('closeIcon', 'assets/closeIcon.png');
 		
 
 		
