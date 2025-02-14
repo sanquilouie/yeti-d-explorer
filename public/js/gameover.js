@@ -20,45 +20,46 @@ GameOver.prototype = {
     showScore: function () {
 		var scoreFont = "400px Arial";
 	
-		// Add the background window
+		// Add background window
 		this.backgroundWindow = this.game.add.sprite(
 			this.game.world.centerX,
 			this.game.world.centerY - 50,
-			'scoreWindow' // Make sure to preload this image
+			'scoreWindow'
 		);
 		this.backgroundWindow.anchor.setTo(0.5, 0.5);
 		this.backgroundWindow.scale.setTo(0.1, 0.1);
-		
+	
 		// Add text inside the background window
 		this.scoreLabel = this.game.add.text(
-			0, -300,  // Position inside the background
-			"Your score is " + score,
+			0, -300,
+			"You earned " + score + " coins!",
 			{ font: scoreFont, fill: "#fff" }
 		);
 		this.scoreLabel.anchor.setTo(0.5, 0.5);
-		
-		this.highScore = this.game.add.text(
-			0, 300,  // Position inside the background
-			"High score: 0",
+	
+		this.coinLabel = this.game.add.text(
+			0, 300,
+			"Total Coins: 0",
 			{ font: scoreFont, fill: "#fff" }
 		);
-		this.highScore.anchor.setTo(0.5, 0.5);
+		this.coinLabel.anchor.setTo(0.5, 0.5);
 	
-		// Add text to the background as children
 		this.backgroundWindow.addChild(this.scoreLabel);
-		this.backgroundWindow.addChild(this.highScore);
+		this.backgroundWindow.addChild(this.coinLabel);
 	
-		// Handle high score logic
-		this.hs = window.localStorage.getItem('HighScore');
+		// 🔹 Load existing coins (if any) 🔹
+		this.coins = parseInt(window.localStorage.getItem('Coins')) || 0;
 	
-		if (this.hs == null || parseInt(this.hs) < score) {
-			window.localStorage.setItem('HighScore', score);
-			this.highScore.setText("High score: " + score);
-		} else {
-			this.highScore.setText("High score: " + this.hs);
-		}
+		// 🔹 Add new coins earned 🔹
+		this.coins += score;
+		score = 0;
+	
+		// 🔹 Save new total 🔹
+		window.localStorage.setItem('Coins', this.coins);
+	
+		// 🔹 Update coin display 🔹
+		this.coinLabel.setText("Total Coins: " + this.coins);
 	},
-
 
     createButtons: function () {
 		var spacing = 300;

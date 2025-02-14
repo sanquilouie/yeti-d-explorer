@@ -40,6 +40,8 @@ Main.prototype = {
 		this.timer = game.time.events.loop(this.rate, this.addObstacles, this);
 		this.Scoretimer = game.time.events.loop(100, this.incrementScore, this);
 
+		//this.jumpSfx = this.game.add.audio("jumpSound");
+
 	},
 
 	update: function() {
@@ -60,6 +62,7 @@ Main.prototype = {
 		if (this.jumps > 0 && this.upInputIsActive(5)) {
 			this.player.body.velocity.y = -1000;
 			this.jumping = true;
+			//this.jumpSfx.play();
 			this.player.animations.play('jump', 10, true);
 		}
 
@@ -180,41 +183,50 @@ Main.prototype = {
 	,
 
 	createScore: function () {
-
 		var scoreFont = "70px Arial";
-
-		this.scoreLabel = this.game.add.text(this.game.world.centerX, 70, "0", { font: scoreFont, fill: "#fff" });
+	
+		// 🔹 Display Current Score (for coins earned in this session)
+		this.scoreLabel = this.game.add.text(
+			this.game.world.centerX, 70, 
+			"0", 
+			{ font: scoreFont, fill: "#fff" }
+		);
 		this.scoreLabel.anchor.setTo(0.5, 0.5);
 		this.scoreLabel.align = 'center';
 		this.game.world.bringToTop(this.scoreLabel);
-
-		this.highScore = this.game.add.text(this.game.world.centerX * 1.6, 70, "0", { font: scoreFont, fill: "#fff" });
-		this.highScore.anchor.setTo(0.5, 0.5);
-		this.highScore.align = 'right';
-		this.game.world.bringToTop(this.highScore);
-
-		if (window.localStorage.getItem('HighScore') == null) {
-			this.highScore.setText(0);
-			window.localStorage.setItem('HighScore', 0);
+	
+		// 🔹 Display Total Coins (instead of high score)
+		this.coinLabel = this.game.add.text(
+			this.game.world.centerX * 1.6, 70, 
+			"Coins: 0", 
+			{ font: scoreFont, fill: "#fff" }
+		);
+		this.coinLabel.anchor.setTo(0.5, 0.5);
+		this.coinLabel.align = 'right';
+		this.game.world.bringToTop(this.coinLabel);
+	
+		// 🔹 Load Coins from Local Storage
+		if (window.localStorage.getItem('Coins') == null) {
+			window.localStorage.setItem('Coins', 0);
 		}
-		else {
-			this.highScore.setText(window.localStorage.getItem('HighScore'));
-		}
-		// this.scoreLabel.bringToTop()
-
+	
+		this.coins = parseInt(window.localStorage.getItem('Coins'));
+		this.coinLabel.setText("Coins: " + this.coins);
 	},
+	
 
 	incrementScore: function () {
-
-
 		score += 1;
 		this.scoreLabel.setText(score);
 		this.game.world.bringToTop(this.scoreLabel);
-		this.highScore.setText("HS: " + window.localStorage.getItem('HighScore'));
-		this.game.world.bringToTop(this.highScore);
-
-
+	
+		// Update Coins
+		this.coins += 1;
+		window.localStorage.setItem('Coins', this.coins);
+		this.coinLabel.setText("Coins: " + this.coins);
+		this.game.world.bringToTop(this.coinLabel);
 	},
+	
 
 	gameOver: function(){
 		this.game.state.start('GameOver');
