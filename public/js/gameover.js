@@ -1,71 +1,80 @@
-var GameOver = function(game){};
+var GameOver = function (game) {};
 
 GameOver.prototype = {
+    create: function () {
+        this.game.stage.backgroundColor = '479cde';
 
-  	create: function(){
+        this.quit = this.game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+        this.resume = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
-			this.game.stage.backgroundColor = '479cde';
+        this.showScore();
+        this.createButtons();
+    },
 
-			this.quit = this.game.input.keyboard.addKey(Phaser.Keyboard.ESC);
-			this.resume = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-			this.showScore();
-	},
+    update: function () {
+        if (this.resume.isDown) {
+            this.restartGame();
+        }
+    },
 
-	update: function () {
+    showScore: function () {
+        var scoreFont = "60px Arial";
 
-		if (this.resume.isDown) {
-			this.restartGame();
-		}
-		if (this.quit.isDown) {
-			// this.quitGame();
-		}
+        this.scoreLabel = this.game.add.text(
+            this.game.world.centerX,
+            this.game.world.centerY / 2,
+            "Your score is " + score,
+            { font: scoreFont, fill: "#fff" }
+        );
+        this.scoreLabel.anchor.setTo(0.5, 0.5);
 
-	},
+        this.highScore = this.game.add.text(
+            this.game.world.centerX,
+            this.game.world.centerY,
+            "High score: 0",
+            { font: scoreFont, fill: "#fff" }
+        );
+        this.highScore.anchor.setTo(0.5, 0.5);
 
-	showScore: function () {
+        this.hs = window.localStorage.getItem('HighScore');
 
-		var scoreFont = "60px Arial";
+        if (this.hs == null || parseInt(this.hs) < score) {
+            window.localStorage.setItem('HighScore', score);
+            this.highScore.setText("High score: " + score);
+        } else {
+            this.highScore.setText("High score: " + this.hs);
+        }
+    },
 
-		this.scoreLabel = this.game.add.text(this.game.world.centerX
-			, this.game.world.centerY / 2, "0", { font: scoreFont, fill: "#fff" });
-		this.scoreLabel.anchor.setTo(0.5, 0.5);
-		this.scoreLabel.align = 'center';
-		this.game.world.bringToTop(this.scoreLabel);
-		this.scoreLabel.text = "Your score is " + (score);
+    createButtons: function () {
+        // Load cartoonish icons before using them
+        var retryButton = this.game.add.button(
+            this.game.world.centerX - 100,
+            this.game.world.centerY * 1.5,
+            'retryIcon',  // Replace with your cartoonish retry icon
+            this.restartGame,
+            this,
+            1, 0, 2
+        );
+        retryButton.anchor.setTo(0.5, 0.5);
+        
+        var shopButton = this.game.add.button(
+            this.game.world.centerX + 100,
+            this.game.world.centerY * 1.5,
+            'shopIcon',  // Replace with your cartoonish shop icon
+            this.openShop,
+            this,
+            1, 0, 2
+        );
+        shopButton.anchor.setTo(0.5, 0.5);
+    },
 
-		this.highScore = this.game.add.text(this.game.world.centerX
-			, this.game.world.centerY, "0", { font: scoreFont, fill: "#fff" });
-		this.highScore.anchor.setTo(0.5, 0.5);
-		this.highScore.align = 'center';
-		this.game.world.bringToTop(this.highScore);
+    restartGame: function () {
+        this.game.state.start("Main");
+    },
 
-		this.hs = window.localStorage.getItem('HighScore');
-
-		if (this.hs == null) {
-			this.highScore.setText("High score: " + score);
-			window.localStorage.setItem('HighScore', score)
-		}
-		else if (parseInt(this.hs) < score) {
-			this.highScore.setText("High score: " + (score ));
-			window.localStorage.setItem('HighScore', score)
-
-		}
-		else {
-			this.highScore.setText("High score: " + this.hs);
-		}
-
-		this.restart = this.game.add.text(this.game.world.centerX
-			, this.game.world.centerY * 1.5
-			, "Press \n Space to retry ", { font: scoreFont, fill: "#fff" });
-		this.restart.anchor.setTo(0.5, 0.5);
-		this.restart.align = 'center';
-		this.game.world.bringToTop(this.restart);
-		// this.scoreLabel.bringToTop()
-
-	},
-
-	restartGame: function(){
-		this.game.state.start("Main");
-	}
-	
-}
+    openShop: function () {
+        console.log("Shop button clicked! Open the shop menu here.");
+        // Implement shop logic
+    }
+};

@@ -53,12 +53,20 @@ Main.prototype = {
 		if (onTheGround) {
 			this.jumps = 2;
 			this.jumping = false;
+			this.player.animations.play('run', 20, true);
 		}
 
 		// Jump!
 		if (this.jumps > 0 && this.upInputIsActive(5)) {
 			this.player.body.velocity.y = -1000;
 			this.jumping = true;
+			this.player.animations.play('jump', 10, true);
+		}
+
+		if (!onTheGround && this.player.body.velocity.y > 0) {
+			if (this.player.animations.currentAnim.name !== 'fall') {
+				this.player.animations.play('fall');
+			}
 		}
 
 		// Reduce the number of available jumps if the jump input is released
@@ -158,10 +166,15 @@ Main.prototype = {
 		this.player.body.drag.x = 150;
 	
 		// 🛠 Fix: Manually define the animation frames using correct frame names
-		var walkFrames = ['walk_0', 'walk_1', 'walk_2', 'walk_3', 'walk_4', 'walk_5', 'walk_6', 'walk_7'];
+		var runFrames = ['run_0', 'run_1', 'run_2', 'run_3', 'run_4', 'run_5', 'run_6', 'run_7'];
+		this.player.animations.add('run', runFrames, 15, true);
+
+		var jumpFrames = ['jump_0', 'jump_1', 'jump_2', 'jump_3', 'jump_4', 'jump_5', 'jump_6', 'jump_7'];
+		this.player.animations.add('jump', jumpFrames, 10, true);
+
+		var fallFrames = ['fall_0', 'fall_1', 'fall_2', 'fall_3', 'fall_4', 'fall_5', 'fall_6', 'fall_7'];
+		this.player.animations.add('fall', fallFrames, 15, true);
 		
-		this.player.animations.add('walk', walkFrames, 10, true);
-		this.player.animations.play('walk', 20, true);
 	}
 	
 	,
