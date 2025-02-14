@@ -63,28 +63,46 @@ GameOver.prototype = {
     createButtons: function () {
 		var spacing = 300;
 
-        // Load cartoonish icons before using them
-        var retryButton = this.game.add.button(
-            this.game.world.centerX - spacing / 2,
-            this.game.world.centerY * 1.5,
-            'retryIcon',  // Replace with your cartoonish retry icon
-            this.restartGame,
-            this,
-            1, 0, 2
-        );
-        retryButton.anchor.setTo(0.5, 0.5);
+        // Retry Button with Hover Effect
+		var retryButton = this.game.add.button(
+			this.game.world.centerX - spacing / 2,
+			this.game.world.centerY * 1.5,
+			'retryIcon',
+			this.restartGame,
+			this,
+			1, 0, 2
+		);
+		retryButton.anchor.setTo(0.5, 0.5);
 		retryButton.scale.setTo(0.1, 0.1);
-        
-        var shopButton = this.game.add.button(
-            this.game.world.centerX + spacing / 2,
-            this.game.world.centerY * 1.5,
-            'shopIcon',  // Replace with your cartoonish shop icon
-            this.openShop,
-            this,
-            1, 0, 2
-        );
-        shopButton.anchor.setTo(0.5, 0.5);
-		shopButton.scale.setTo(0.1, 0.1);
+
+	// Hover Effect
+	retryButton.events.onInputOver.add(function() {
+		retryButton.scale.setTo(0.12, 0.12); // Increase size when hovered
+	}, this);
+	retryButton.events.onInputOut.add(function() {
+		retryButton.scale.setTo(0.1, 0.1); // Revert when not hovered
+	}, this);
+
+	// Shop Button with Hover Effect
+	var shopButton = this.game.add.button(
+		this.game.world.centerX + spacing / 2,
+		this.game.world.centerY * 1.5,
+		'shopIcon', 
+		this.openShop,
+		this,
+		1, 0, 2
+	);
+	shopButton.anchor.setTo(0.5, 0.5);
+	shopButton.scale.setTo(0.1, 0.1);
+
+	// Hover Effect
+	shopButton.events.onInputOver.add(function() {
+		shopButton.scale.setTo(0.12, 0.12); // Increase size when hovered
+	}, this);
+	shopButton.events.onInputOut.add(function() {
+		shopButton.scale.setTo(0.1, 0.1); // Revert when not hovered
+	}, this);
+
     },
 
     restartGame: function () {
@@ -92,7 +110,8 @@ GameOver.prototype = {
     },
 
     openShop: function () {
-        console.log("Shop button clicked! Open the shop menu here.");
-        // Implement shop logic
-    }
+		console.log("Shop button clicked! Opening the Shop...");
+		this.game.state.start("Shop"); // Switch to Shop state
+	}
+	
 };
