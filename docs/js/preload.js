@@ -36,6 +36,7 @@ Preload.prototype = {
 
 		
 		this.load.atlas('player', 'assets/player3.png', 'assets/player3.json'); // the player walk
+		this.load.atlas('flying_ginger', 'assets/flying_ginger.png', 'assets/flying_ginger.json'); // the player walk
 		
 
 	},

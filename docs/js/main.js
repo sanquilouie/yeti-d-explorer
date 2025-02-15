@@ -31,10 +31,17 @@ Main.prototype = {
 		this.floor.enableBody = true;
 		this.floor.createMultiple(Math.ceil(this.game.world.width / this.tileWidth), 'tile');
 
+		//Ground Obstacle
 		this.boxes = this.game.add.group();
 		this.boxes.enableBody = true;
 		this.boxes.createMultiple(20, 'box');
 		this.game.world.bringToTop(this.floor);
+
+		//Flying Obstacle
+		this.flyingObstacles = this.game.add.group();
+		this.flyingObstacles.enableBody = true;
+		this.flyingObstacles.createMultiple(20, 'flying_ginger'); 
+
 
 		this.jumping = false;
 
@@ -53,13 +60,14 @@ Main.prototype = {
 	update: function() {
 		this.game.physics.arcade.collide(this.player, this.floor);
 		this.game.physics.arcade.collide(this.player, this.boxes, this.gameOver, null, this);
+		this.game.physics.arcade.collide(this.player, this.flyingObstacles, this.gameOver, null, this);
 	
 		var onTheGround = this.player.body.touching.down;
 	
 		if (onTheGround) {
 			this.jumps = 2;
 			this.jumping = false;
-			this.player.animations.play('run', 150, true);
+			this.player.animations.play('run', 25, true);
 		}
 	
 		if (this.jumps > 0 && this.upInputIsActive(5)) {
@@ -111,22 +119,52 @@ Main.prototype = {
 		// tile.body.friction.x = 1000;
 	},
 
+	addFlyingObstacle: function (x, y) {
+		// Check if there is already an active flying obstacle on the screen
+		if (this.flyingObstacles.countLiving() > 0) return; // Exit if one already exists
+	
+		var obstacle = this.flyingObstacles.getFirstDead();
+		
+		if (!obstacle) return; // If no available obstacle, exit
+	
+		obstacle.reset(x, y);  // Spawn off-screen to the right
+		obstacle.body.velocity.x = -Math.abs(this.tileVelocity) * 2; // Move leftward
+		obstacle.body.immovable = true;
+		obstacle.checkWorldBounds = true;
+		obstacle.outOfBoundsKill = true;
+	
+		// Define the frames for animation
+		var flyFrames = ['ginger_0', 'ginger_1', 'ginger_2', 'ginger_3', 'ginger_4', 'ginger_5', 'ginger_6', 'ginger_7', 'ginger_8', 'ginger_9'];
+		obstacle.animations.add('flying_ginger', flyFrames, 10, true);
+		obstacle.animations.play('flying_ginger'); // Play animation
+	
+		obstacle.scale.setTo(2, 2); // Doubles the size
+	},
+	
+	
+	
+
 	addObstacles: function () {
-		var tilesNeeded = Math.floor( Math.random() * (5 - 0));
-		// var gap = Math.floor( Math.random() * (tilesNeeded - 0));
+		var tilesNeeded = Math.floor(Math.random() * 5);
+		
+		// Reduce tileVelocity over time
 		if (this.rate > 200) {
 			this.rate -= 10;
 			this.tileVelocity = -(675000 / this.rate);
-
 		}
-
-		for (var i = 0; i < tilesNeeded; i++) {
-
-			this.addBox(this.game.world.width , this.game.world.height -
-				this.tileHeight - ((i + 1)* this.boxHeight ));
-
+	
+		// Randomly decide whether to spawn a ground or flying obstacle
+		if (Math.random() < 0.5) {  
+			// Ground obstacle (existing logic)
+			for (var i = 0; i < tilesNeeded; i++) {
+				this.addBox(this.game.world.width, this.game.world.height - this.tileHeight - ((i + 1) * this.boxHeight));
+			}
+		} else {  
+			// Flying obstacle
+			this.addFlyingObstacle(this.game.world.width, this.game.world.height - 250); // Adjust Y position as needed
 		}
 	},
+	
 
 	addTile: function (x, y) {
 
