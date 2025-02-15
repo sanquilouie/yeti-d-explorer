@@ -3,7 +3,10 @@ var Main = function(game){
 };
 
 var score = 0;
+var tileWidth = 64;
+var tileHeight = 64; 
 
+var floor;
 Main.prototype = {
 
 	create: function() {
@@ -11,7 +14,7 @@ Main.prototype = {
 		this.tileVelocity = -450;
 		this.rate = 1500;
 		score = 0;
-
+		
 		
 		this.tileWidth = this.game.cache.getImage('tile').width;
 		this.tileHeight = this.game.cache.getImage('tile').height;
@@ -29,7 +32,14 @@ Main.prototype = {
 
 		this.floor = this.game.add.group();
 		this.floor.enableBody = true;
-		this.floor.createMultiple(Math.ceil(this.game.world.width / this.tileWidth), 'tile');
+
+		for (let i = 0; i < Math.ceil(this.game.world.width / tileWidth); i++) {
+			let tile = this.floor.create(i * tileWidth, this.game.world.height - tileHeight, 'tile');
+			tile.body.immovable = true;
+			tile.x = this.game.world.width + i * tileWidth;
+		}
+
+		this.game.time.events.loop(Phaser.Timer.SECOND / 60, this.updateFloor, this);
 
 		//Ground Obstacle
 		this.boxes = this.game.add.group();
@@ -104,9 +114,22 @@ Main.prototype = {
 				tree.x = this.game.world.width + Math.random() * 100;
 			}
 		}, this);
+
+		this.updateFloor();	
 	},
 	
+	// Define updateFloor outside the update function
+	updateFloor: function() {
+		this.floor.forEachAlive(function(tile) {
+			tile.x -= 2;  // Move the tile to the left
+			if (tile.x + tileWidth < 0) {
+				// Reposition the tile to the right side when it goes off-screen
+				tile.x = this.game.world.width;
+			}
+		}, this);
+	},
 
+	
 	addBox: function (x, y) {
 
 		var tile = this.boxes.getFirstDead();
@@ -167,16 +190,23 @@ Main.prototype = {
 	
 
 	addTile: function (x, y) {
-
 		var tile = this.floor.getFirstDead();
-
-		tile.reset(x, y);
-		// tile.body.velocity.y = me.vel;
+	
+		if (!tile) {
+			// If no dead tile is found, create a new one
+			tile = this.floor.create(x, y, 'tile');
+		} else {
+			// Reset the existing tile's position
+			tile.reset(x, y);
+		}
+	
+		// Set additional properties for the tile
 		tile.body.immovable = true;
 		tile.checkWorldBounds = true;
 		tile.outOfBoundsKill = true;
 		// tile.body.friction.x = 1000;
 	},
+	
 
 	addBase: function () {
 		var tilesNeeded = Math.ceil(this.game.world.width / this.tileWidth);
