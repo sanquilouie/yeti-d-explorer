@@ -3,7 +3,7 @@ var Preload = function(game){};
 Preload.prototype = {
 
 	preload: function(){ 
-		this.game.load.audio("jumpSound", "assets/jump.mp3");
+		//this.game.load.audio("jumpSound", "assets/jump.mp3");
 
 		this.game.load.image("gameLogo", "assets/yetilogo.png"); 
     	this.game.load.image("playIcon", "assets/playbtn.png");
@@ -23,10 +23,19 @@ Preload.prototype = {
 		this.load.image('bagIcon', 'assets/inventory.png');
 		this.load.image('inventoryWindow', 'assets/inventoryWindow.png');
 		this.load.image('closeIcon', 'assets/closeIcon.png');
+
+		this.load.image('tree_1', 'assets/tree_1.png');
+		this.load.image('tree_2', 'assets/tree_2.png');
+		this.load.image('tree_3', 'assets/tree_3.png');
+		this.load.image('cloud_1', 'assets/cloud_1.png');
+		this.load.image('cloud_2', 'assets/cloud_1.png');
+		this.load.image('cloud_3', 'assets/cloud_3.png');
+		this.load.image('cloud_4', 'assets/cloud_4.png');
+		this.load.image('cloud_5', 'assets/cloud_5.png');
 		
 
 		
-		this.load.atlas('player', 'assets/player.png', 'assets/player.json'); // the player walk
+		this.load.atlas('player', 'assets/player3.png', 'assets/player3.json'); // the player walk
 		
 
 	},
