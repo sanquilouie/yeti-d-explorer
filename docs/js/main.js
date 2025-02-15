@@ -154,7 +154,7 @@ Main.prototype = {
 	upInputIsActive: function (duration) {
 		var isActive = false;
 
-		isActive = this.input.keyboard.downDuration(Phaser.Keyboard.UP, duration);
+		isActive = this.input.keyboard.downDuration(Phaser.Keyboard.SPACEBAR, duration);
 		isActive |= (this.game.input.activePointer.justPressed(duration + 1000 / 60) &&
 			this.game.input.activePointer.x > this.game.width / 4 &&
 			this.game.input.activePointer.x < this.game.width / 2 + this.game.width / 4);
@@ -166,7 +166,7 @@ Main.prototype = {
 	upInputReleased: function () {
 		var released = false;
 
-		released = this.input.keyboard.upDuration(Phaser.Keyboard.UP);
+		released = this.input.keyboard.upDuration(Phaser.Keyboard.SPACEBAR);
 		released |= this.game.input.activePointer.justReleased();
 
 		return released;
@@ -200,27 +200,33 @@ Main.prototype = {
 	},
 
 	createScore: function () {
-		var scoreFont = "70px Arial";
+		var scoreFont = "30px Arial";
 	
 		// 🔹 Display Current Score (for coins earned in this session)
-		this.scoreLabel = this.game.add.text(
+		/**this.scoreLabel = this.game.add.text(
 			this.game.world.centerX, 70, 
 			"0", 
 			{ font: scoreFont, fill: "#fff" }
 		);
 		this.scoreLabel.anchor.setTo(0.5, 0.5);
 		this.scoreLabel.align = 'center';
-		this.game.world.bringToTop(this.scoreLabel);
+		this.game.world.bringToTop(this.scoreLabel);**/
 	
-		// 🔹 Display Total Coins (instead of high score)
+		// 🔹 Create Coin Icon
+		this.coinIcon = this.game.add.sprite(
+			this.game.world.centerX * 1.6, 60, 
+			"coinsIcon" // Replace with actual sprite key
+		);
+		this.coinIcon.anchor.setTo(0.5, 0.5);
+		this.coinIcon.scale.setTo(0.15); // Adjust size as needed
+	
+		// 🔹 Display Total Coins (inside the sprite)
 		this.coinLabel = this.game.add.text(
-			this.game.world.centerX * 1.6, 70, 
-			"Coins: 0", 
+			this.coinIcon.x, this.coinIcon.y - 20, 
+			"0", 
 			{ font: scoreFont, fill: "#fff" }
 		);
-		this.coinLabel.anchor.setTo(0.5, 0.5);
-		this.coinLabel.align = 'right';
-		this.game.world.bringToTop(this.coinLabel);
+		this.coinLabel.anchor.setTo(0.5, 0); // Center it below the icon
 	
 		// 🔹 Load Coins from Local Storage
 		if (window.localStorage.getItem('Coins') == null) {
@@ -228,8 +234,13 @@ Main.prototype = {
 		}
 	
 		this.coins = parseInt(window.localStorage.getItem('Coins'));
-		this.coinLabel.setText("Coins: " + this.coins);
+		this.coinLabel.setText(this.coins); // Update text inside the sprite
+	
+		// Ensure both are on top
+		this.game.world.bringToTop(this.coinIcon);
+		this.game.world.bringToTop(this.coinLabel);
 	},
+	
 	
 	createBackground: function () {
 		// Cloud sprites array
@@ -276,17 +287,15 @@ Main.prototype = {
 	},
 	
 	
-	
-
 	incrementScore: function () {
 		score += 1;
-		this.scoreLabel.setText(score);
-		this.game.world.bringToTop(this.scoreLabel);
+		//this.scoreLabel.setText(score);
+		//this.game.world.bringToTop(this.scoreLabel);
 	
 		// Update Coins
 		this.coins += 1;
 		window.localStorage.setItem('Coins', this.coins);
-		this.coinLabel.setText("Coins: " + this.coins);
+		this.coinLabel.setText(this.coins);
 		this.game.world.bringToTop(this.coinLabel);
 	},
 	
