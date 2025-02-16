@@ -64,6 +64,7 @@ Main.prototype = {
 		this.Scoretimer = game.time.events.loop(100, this.incrementScore, this);
 
 		this.jumpSfx = this.game.add.audio("jumpSound");
+		this.hitSfx = this.game.add.audio("hitSound");
 
 	},
 
@@ -231,6 +232,10 @@ Main.prototype = {
 		return isActive;
 	},
 
+	slideInputIsActive() {
+		return this.input.keyboard.RIGHT; // Adjust based on your input setup
+	},
+
 	// This function returns true when the player releases the "jump" control
 	upInputReleased: function () {
 		var released = false;
@@ -266,6 +271,11 @@ Main.prototype = {
 		var fallFrames = ['fall_0', 'fall_1', 'fall_2', 'fall_3', 'fall_4', 'fall_5', 'fall_6', 'fall_7'];
 		this.player.animations.add('fall', fallFrames, 15, true);
 		
+		var deadFrames = ['dead_0', 'dead_1', 'dead_2', 'dead_3', 'dead_4', 'dead_5', 'dead_6', 'dead_7', 'dead_8', 'dead_9'];
+		this.player.animations.add('dead', deadFrames, 15, true);
+		
+		var slideFrames = ['slide_0', 'slide_1', 'slide_2', 'slide_3', 'slide_4', 'slide_5', 'slide_6', 'slide_7', 'slide_8', 'slide_9'];
+		this.player.animations.add('slide', slideFrames, 15, true);
 	},
 
 	createScore: function () {
@@ -375,7 +385,7 @@ Main.prototype = {
 	
 
 	gameOver: function(){
+		this.hitSfx.play();
 		this.game.state.start('GameOver');
 	}
-
 };
